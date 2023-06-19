@@ -1,5 +1,37 @@
 <img width="523" alt="NameSpacesNet" src="https://github.com/MdAhosanHabib/LinuxNetworkingNamespace/assets/43145662/3cc0a3fa-ae79-4af8-84ce-f8e1c8a0ed4d">
 
+Introduction: This document outlines the steps involved in creating three network namespaces and demonstrates how to analyze packet traffic using Python.
+
+Creating Namespaces: The first step is to create three network namespaces using the ip netns add command. These namespaces act as isolated network environments, allowing us to configure IP addresses and routing tables independently.
+
+Creating the Bridge Interface: Next, a bridge interface is created using the ip link add command. The bridge interface serves as a connection point for the namespaces and allows them to communicate with each other and the host.
+
+Creating Veth Pairs: Veth pairs are created using the ip link add command, with each pair consisting of an "inside" and an "outside" interface. These pairs serve as virtual Ethernet cables, connecting the namespaces to the bridge interface.
+
+Adding Interfaces to the Bridge: The "outside" interfaces of the veth pairs are added to the bridge interface using the ip link set command. This step ensures that the namespaces can communicate with each other and the host through the bridge.
+
+Adding Interfaces to the Namespaces: The "inside" interfaces of the veth pairs are added to their respective namespaces using the ip link set command. This step allows us to configure IP addresses and establish connectivity within each namespace.
+
+Configuring IP Addresses: IP addresses are assigned to the "inside" interfaces of each namespace using the ip addr add command. This step establishes unique IP addresses for each namespace, enabling communication between them.
+
+Setting Up Routing: Routing is set up within each namespace using the ip link set command. This step ensures that packets are correctly forwarded between interfaces within the same namespace.
+
+Checking Connectivity: Connectivity between the namespaces is tested using the ping command. This step verifies that the namespaces can communicate with each other.
+
+Establishing External Connectivity: External connectivity from the namespaces is tested using the ping command with external IP addresses. This step verifies if the namespaces can reach external networks.
+
+Adding NAT Functionality: NAT (Network Address Translation) functionality is added to the host using the iptables command. This step allows the namespaces to access the internet by translating their private IP addresses to the host's public IP address.
+
+Adding Default Gateways: Default gateways are added to each namespace using the ip route add command. This step ensures that packets destined for external networks are correctly routed through the host.
+
+Adding Port Forwarding: Port forwarding rules are added to the host's iptables using the iptables command. This step allows incoming traffic on port 80 to be forwarded to specific destinations within the namespaces.
+
+Viewing Network Namespaces, Bridge, and Virtual Ethernet Interfaces: The ip netns list, ip link show br0, and ip link show type veth commands are used to view the created network namespaces, the bridge interface, and the virtual Ethernet interfaces, respectively.
+
+Analyzing Packet Traffic Using Python: A Python script is created using the Scapy library to capture and analyze packet traffic on the bridge interface. The script listens for IP packets and prints the source and destination IP addresses of each captured packet.
+
+Now we start the implementation:
+
 #------------------------Create 3 namespaces and packet send------------------------#
 
 #Step1: Create the namespaces
